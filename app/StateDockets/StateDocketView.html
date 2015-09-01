@@ -1,0 +1,133 @@
+<div class="container" style="margin:60px auto;">
+
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true" id="docket-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="panel panel-primary" ng-if="selected_docket">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{selected_docket.state_id }}</h3>
+                        <a target="_blank"
+                           href="{{api_url}}/states/{{selected_docket.state}}/dockets/{{selected_docket._id}}"
+                           class="btn btn-primary btn-xs active pull-right" role="button">View JSON</a>
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Title</dt>
+                            <dd>{{ selected_docket.title }}</dd>
+                            <dt>Description</dt>
+                            <dd>{{ selected_docket.description }}</dd>
+                            <dt>State</dt>
+                            <dd>{{ selected_docket.state }}</dd>
+                            <dt>Industries</dt>
+                            <dd>{{ selected_docket.industries }}</dd>
+                            <dt>Filed On</dt>
+                            <dd>{{ selected_docket.filed_on }}</dd>
+                            <dt>Closed On</dt>
+                            <dd>{{ selected_docket.closed_on }}</dd>
+                            <dt>Proceeding Type</dt>
+                            <dd>{{ selected_docket.proceeding_type }}</dd>
+                            <dt>Source Assignees</dt>
+                            <dd>{{selected_docket.source_assignees }}</dd>
+                            <dt>Assignees</dt>
+                            <dd>{{ selected_docket.assignees }}</dd>
+                            <dt>Source Major Parties</dt>
+                            <dd>{{ selected_docket.source_major_parties }}</dd>
+                            <dt>Major Parties</dt>
+                            <dd>{{ selected_docket.major_parties }}</dd>
+                            <dt>Status</dt>
+                            <dd>{{ selected_docket.status }}</dd>
+                            <dt>Source Url</dt>
+                            <dd style="overflow-wrap: break-word;"><a target="_blank"
+                                                                      href="{{ selected_docket.source_url }}">{{
+                                selected_docket.source_url }}</a></dd>
+                            <dt>Crawled At</dt>
+                            <dd>{{ selected_docket.crawled_at }}</dd>
+                            <dt>Uploaded</dt>
+                            <dd>{{ selected_docket.uploaded }}</dd>
+                            <dt>Spider Name</dt>
+                            <dd>{{ selected_docket.spider_name }}</dd>
+                        </dl>
+                        <span class="label label-info">Filings</span><span
+                            class="badge">{{selected_docket.filings.length}}</span>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-info"
+                                data-ng-repeat="filing in selected_docket.filings">
+                                <dl class="dl-horizontal">
+                                    <dt>Description</dt>
+                                    <dd>{{ filing.description }}</dd>
+                                    <dt>Types</dt>
+                                    <dd>{{ filing.types }}</dd>
+                                    <dt>Source Filing Parties</dt>
+                                    <dd>{{ filing.source_filing_parties }}</dd>
+                                    <dt>Filing Parties</dt>
+                                    <dd>{{ filing.filing_parties }}</dd>
+                                    <dt>State Id</dt>
+                                    <dd>{{ filing.state_id }}</dd>
+                                    <dt>Filed On</dt>
+                                    <dd>{{ filing.filed_on }}</dd>
+                                    <span class="label label-success">Documents</span><span class="badge">{{filing.documents.length}}</span>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" data-ng-repeat="document in filing.documents">
+                                            <dl class="dl-horizontal">
+                                                <dt>Title</dt>
+                                                <dd>{{ document.title }}</dd>
+                                                <dt>Types</dt>
+                                                <dd>{{ document.types }}</dd>
+                                                <dt>Extension</dt>
+                                                <dd>{{ document.extension }}</dd>
+                                                <dt>State Id</dt>
+                                                <dd>{{ document.state_id }}</dd>
+                                                <dt>Name</dt>
+                                                <dd>{{ document.name }}</dd>
+                                                <dt>Blob Name</dt>
+                                                <dd>{{ document.blob_name }}</dd>
+                                                <dt>On S3</dt>
+                                                <dd>{{ document.on_s3 }}</dd>
+                                                <dt>Source Url</dt>
+                                                <dd style="overflow-wrap: break-word;"><a target="_blank"
+                                                                                          href="{{ document.source_url }}">{{
+                                                    document.source_url}}</a></dd>
+                                            </dl>
+                                        </li>
+                                    </ul>
+                                </dl>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>
+                {{reddit.total_dockets}} docket(s) found for state {{reddit.state}}
+            </h2></div>
+        <div class="col-md-4">
+            <h2>
+                <div class="input-group">
+                    <input ng-model="filter_input.state_id" type="text" class="form-control"
+                           placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="clear_filter()">Clear!</button>
+      </span>
+                </div>
+            </h2>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div ng-repeat="docket in reddit.items | filter:filter_input" class="col-md-2 col-sm-6">
+            <div class="thumbnail">
+                <div class="caption">
+                    <p><a href="#" ng-click="show_docket(docket.id)">{{ docket.state_id }}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div infinite-scroll="reddit.load_dockets()" infinite-scroll-distance="2"></div>
+</div>
+<div style='clear: both;'></div>
