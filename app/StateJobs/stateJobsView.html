@@ -1,0 +1,25 @@
+<div class="container" style="margin:60px auto;">
+    <table class="table table-striped">
+        <caption>All runs for state</caption>
+        <thead>
+        <tr>
+            <th>Item scraped</th>
+            <th>Start Time</th>
+            <th>Status</th>
+            <th>Drops</th>
+            <th>Errors</th>
+            <th>Log file</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="job in runners.jobs">
+            <td>{{job.stats.item_scraped_count}}</td>
+            <td>{{job.start_time}}</td>
+            <td>{{job.status}}</td>
+            <td>{{job.drop_count}}</td>
+            <td>{{job.error_count}}</td>
+            <td><a class="btn btn-primary" href="states/{{runners.state}}/runs/{{run._id}}/jobs" role="button">Distributed
+                Runs</a></td>
+        </tr>
+    </table>
+</div>
+<div style='clear: both;'></div>

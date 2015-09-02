@@ -1,0 +1,24 @@
+<div class="container" style="margin:60px auto;">
+    <table class="table table-striped">
+        <caption>Stats for all states.</caption>
+        <thead>
+        <tr>
+            <th>State</th>
+            <th>Total Dockets</th>
+            <th>Favorite Runs</th>
+            <th>Daily Runs</th>
+            <th>Weekly Runs</th>
+            <th>All Runs</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="state in stats.stats">
+            <td>{{state.state}}</td>
+            <td><a href="/states/{{state.state}}/dockets">{{state.total_dockets}}</a></td>
+            <td><a class="btn btn-primary" href="/states/{{state.state}}/runs/favorite" role="button">Favorite runs</a></td>
+            <td><a class="btn btn-primary" href="/states/{{state.state}}/runs/daily" role="button">Daily runs</a></td>
+            <td><a class="btn btn-primary" href="/states/{{state.state}}/runs/weekly" role="button">Weekly runs</a></td>
+            <td><a class="btn btn-primary" href="/states/{{state.state}}/runs/all" role="button">All runs</a></td>
+        </tr>
+    </table>
+</div>
+<div style='clear: both;'></div>

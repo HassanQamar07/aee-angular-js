@@ -1,0 +1,20 @@
+<div class="container" style="margin:60px auto;">
+    <table class="table table-striped">
+        <caption>All runs for state</caption>
+        <thead>
+        <tr>
+            <th>Spider Name</th>
+            <th>Start Time</th>
+            <th>Status</th>
+            <th>Distributed Runs</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="run in runners.runs">
+            <td>{{run.spider_name}}</td>
+            <td>{{run.start_time}}</td>
+            <td>{{run.status}}</td>
+            <td><a class="btn btn-primary" href="states/{{runners.state}}/runs/{{run._id}}/jobs" role="button">Distributed Runs</a></td>
+        </tr>
+    </table>
+</div>
+<div style='clear: both;'></div>
