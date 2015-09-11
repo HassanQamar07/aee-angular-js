@@ -1,6 +1,24 @@
 <div class="container" style="margin:60px auto;">
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>
+                All Job(s) for run {{runners.run_id}}
+            </h2></div>
+        <div class="col-md-4">
+            <!--<h2>-->
+            <!--<div class="input-group">-->
+            <!--<input ng-model="filter_input.state_id" type="text" class="form-control"-->
+            <!--placeholder="Search for...">-->
+            <!--<span class="input-group-btn">-->
+            <!--<button class="btn btn-default" type="button" ng-click="clear_filter()">Clear!</button>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--</h2>-->
+        </div>
+    </div>
     <table class="table table-striped">
-        <caption>All runs for state</caption>
         <thead>
         <tr>
             <th>Item scraped</th>
@@ -11,14 +29,16 @@
             <th>Log file</th>
         </tr>
         </thead>
-        <tr ng-repeat="job in runners.jobs">
-            <td>{{job.stats.item_scraped_count}}</td>
+        <tr ng-repeat="job in runners.jobs" ng-class="get_status_class(job)">
+            <th><a href="/states/{{runners.state}}/jobs/{{job._id}}/dockets">{{job.stats.item_scraped_count}}</a></th>
             <td>{{job.start_time}}</td>
             <td>{{job.status}}</td>
             <td>{{job.drop_count}}</td>
             <td>{{job.error_count}}</td>
-            <td><a class="btn btn-primary" href="states/{{runners.state}}/runs/{{run._id}}/jobs" role="button">Distributed
-                Runs</a></td>
+            <td><a class="btn btn-primary" target="_blank"
+                   href="{{api_url}}/files/{{runners.state|lowercase}}_on_demand_spider/{{job._id}}.log"
+                   role="button">Log
+                file</a></td>
         </tr>
     </table>
 </div>

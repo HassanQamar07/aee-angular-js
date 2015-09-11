@@ -15,15 +15,17 @@ ngApp.factory('StateSingleDocketsFactory', ['$resource', 'GlobalVars', function 
 
 
 ngApp.factory('docketsLoader', ['GlobalVars', '$resource', function (GlobalVars, $resource) {
-    var docketsLoader = function (state) {
+    var docketsLoader = function (state, url_path, job_id) {
         this.items = [];
         this.busy = false;
         this.cursor = '';
         this.total_dockets = 0;
         this.state = state;
-        this.service = $resource(GlobalVars.api_url + '/states/:state/dockets',
+        this.job_id = job_id;
+        this.url = GlobalVars.api_url + url_path;
+        this.service = $resource(this.url,
             {
-                callback: "JSON_CALLBACK", state: '@state', cursor: '@cursor'
+                callback: "JSON_CALLBACK", state: '@state', cursor: '@cursor', 'job': '@job'
             }
         );
     };
@@ -31,7 +33,7 @@ ngApp.factory('docketsLoader', ['GlobalVars', '$resource', function (GlobalVars,
         if (this.busy)
             return;
         this.busy = true;
-        this.service.get({state: this.state, cursor: this.cursor}).$promise.then(function (data) {
+        this.service.get({state: this.state, cursor: this.cursor, 'job': this.job_id}).$promise.then(function (data) {
             if (!data.error) {
                 this.cursor = data.meta.cursor;
                 if (this.cursor)

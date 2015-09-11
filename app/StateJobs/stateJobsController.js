@@ -9,10 +9,18 @@ angular.module('myApp.Jobs', ['ngRoute'])
         });
     }])
 
-    .controller('JobsController', ['$scope', 'JobsFactory', '$routeParams',
-        function ($scope, JobsFactory, $routeParams) {
-            console.log('Hi from jobs controller');
+    .controller('JobsController', ['$scope', 'JobsFactory', '$routeParams', 'GlobalVars',
+        function ($scope, JobsFactory, $routeParams, GlobalVars) {
+            $scope.api_url = GlobalVars.api_url;
             $scope.runners = new JobsFactory($routeParams.state, $routeParams.runId);
             $scope.runners.get();
+            $scope.get_status_class = function (job) {
+                if (job.error_count) {
+                    return 'danger';
+                }
+                if (job.drop_count) {
+                    return 'warning'
+                }
+            }
         }
     ]);

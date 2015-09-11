@@ -2,7 +2,6 @@
 
 // Declare app level module which depends on views, and components
 
-var server = 'http://127.0.0.1:5000/';
 var ngApp = angular.module('myApp', [
     'ngResource',
     'ngRoute',
@@ -11,7 +10,7 @@ var ngApp = angular.module('myApp', [
 ]);
 
 
-ngApp.value('GlobalVars', {'api_url': 'http://127.0.0.1:5000'});
+ngApp.value('GlobalVars', {'api_url': 'http://54.225.86.142:5000'});
 
 ngApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
     $httpProvider.defaults.stripTrailingSlashes = true;

@@ -6,6 +6,9 @@ angular.module('myApp.StateDockets', ['ngRoute'])
         $routeProvider.when('/states/:state/dockets', {
             templateUrl: 'StateDockets/StateDocketView.html',
             controller: 'StateDocketsController'
+        }).when('/states/:state/jobs/:jobId/dockets', {
+            templateUrl: 'StateDockets/StateDocketView.html',
+            controller: 'StateDocketsController'
         });
     }])
 
@@ -31,9 +34,15 @@ angular.module('myApp.StateDockets', ['ngRoute'])
                     console.log(reason);
                 });
             };
-            $scope.reddit = new docketsLoader($routeParams.state);
-            $scope.clear_filter=function(){
-                $scope.filter_input=""
+            console.log($routeParams);
+            var call_url = '';
+            if ($routeParams.jobId)
+                call_url = '/states/:state/jobs/:job/dockets';
+            else
+                call_url = '/states/:state/dockets';
+            $scope.reddit = new docketsLoader($routeParams.state, call_url, $routeParams.jobId);
+            $scope.clear_filter = function () {
+                $scope.filter_input = ""
             }
         }
     ]);
