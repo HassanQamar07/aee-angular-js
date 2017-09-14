@@ -9,7 +9,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">{{selected_docket.state_id }}</h3>
                         <a target="_blank"
-                           href="{{api_url}}/states/{{selected_docket.state}}/dockets/{{selected_docket._id}}"
+                           href="{{api_url}}/states/{{selected_docket.state}}/dockets/{{selected_docket._id}}?staging={{staging}}"
                            class="btn btn-primary btn-xs active pull-right" role="button">View JSON</a>
                     </div>
                     <div class="panel-body">
@@ -46,6 +46,8 @@
                             <dd>{{ selected_docket.crawled_at }}</dd>
                             <dt>Uploaded</dt>
                             <dd>{{ selected_docket.uploaded }}</dd>
+                            <dt ng-show=" selected_docket.modified !== undefined ">Modified</dt>
+                            <dd ng-show=" selected_docket.modified !== undefined ">{{ selected_docket.modified }}</dd>
                             <dt>Spider Name</dt>
                             <dd>{{ selected_docket.spider_name }}</dd>
                         </dl>
@@ -67,6 +69,8 @@
                                     <dd>{{ filing.state_id }}</dd>
                                     <dt>Filed On</dt>
                                     <dd>{{ filing.filed_on }}</dd>
+                                    <dt ng-show=" filing.meeting_dates !== undefined ">Meeting Dates</dt>
+                                    <dd ng-show=" filing.meeting_dates !== undefined ">{{ filing.meeting_dates }}</dd>
                                     <span class="label label-success">Documents</span><span class="badge">{{filing.documents.length}}</span>
                                     <ul class="list-group">
                                         <li class="list-group-item" data-ng-repeat="document in filing.documents">
@@ -84,11 +88,16 @@
                                                 <dt>Blob Name</dt>
                                                 <dd>{{ document.blob_name }}</dd>
                                                 <dt>On S3</dt>
-                                                <dd>{{ document.on_s3 }}</dd>
-                                                <dt>Source Url</dt>
+                                                <dd>{{ document.ons3 }}</dd>
+                                                <dt>Source URL</dt>
                                                 <dd style="overflow-wrap: break-word;"><a target="_blank"
                                                                                           href="{{ document.source_url }}">{{
                                                     document.source_url}}</a></dd>
+						
+                    			        <dt ng-show=" document.original_url !== undefined ">Original URL</dt>
+		                                <dd ng-show=" document.original_url !== undefined " style="overflow-wrap: break-word;"><a target="_blank"
+                                                                                          href="{{ document.original_url }}">{{
+                                                    document.original_url}}</a></dd>
                                             </dl>
                                         </li>
                                     </ul>

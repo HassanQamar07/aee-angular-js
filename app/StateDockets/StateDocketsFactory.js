@@ -2,30 +2,31 @@ ngApp.factory('StateSingleDocketsFactory', ['$resource', 'GlobalVars', function 
     function state_docket() {
         this.service = $resource(GlobalVars.api_url + '/states/:state/dockets/:docket',
             {
-                callback: "JSON_CALLBACK", state: '@state', docket: '@docket'
+                callback: "JSON_CALLBACK", state: '@state', docket: '@docket', staging:'@staging'
             }
         );
     }
 
-    state_docket.prototype.get = function (state, docket) {
-        return this.service.get({state: state, docket: docket});
+    state_docket.prototype.get = function (state, docket,staging) {
+        return this.service.get({state: state, docket: docket,staging:staging});
     };
     return new state_docket;
 }]);
 
 
 ngApp.factory('docketsLoader', ['GlobalVars', '$resource', function (GlobalVars, $resource) {
-    var docketsLoader = function (state, url_path, job_id) {
+    var docketsLoader = function (state, url_path, job_id,staging) {
         this.items = [];
         this.busy = false;
         this.cursor = '';
         this.total_dockets = 0;
         this.state = state;
         this.job_id = job_id;
+        this.staging = staging;
         this.url = GlobalVars.api_url + url_path;
         this.service = $resource(this.url,
             {
-                callback: "JSON_CALLBACK", state: '@state', cursor: '@cursor', 'job': '@job'
+                callback: "JSON_CALLBACK", state: '@state', cursor: '@cursor', 'job': '@job', staging:'@staging'
             }
         );
     };
@@ -33,7 +34,7 @@ ngApp.factory('docketsLoader', ['GlobalVars', '$resource', function (GlobalVars,
         if (this.busy)
             return;
         this.busy = true;
-        this.service.get({state: this.state, cursor: this.cursor, 'job': this.job_id}).$promise.then(function (data) {
+        this.service.get({state: this.state, cursor: this.cursor, 'job': this.job_id,'staging':this.staging}).$promise.then(function (data) {
             if (!data.error) {
                 this.cursor = data.meta.cursor;
                 if (this.cursor)

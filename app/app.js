@@ -10,7 +10,7 @@ var ngApp = angular.module('myApp', [
 ]);
 
 
-ngApp.value('GlobalVars', {'api_url': 'http://54.225.86.142:5000'});
+ngApp.value('GlobalVars', {'api_url': 'http://'+window.location.hostname+':5000'});
 
 ngApp.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
     $httpProvider.defaults.stripTrailingSlashes = true;
